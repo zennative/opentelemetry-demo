@@ -10,10 +10,3 @@ nodes:
             system-reserved: "memory=128Mi"
             kube-reserved: "cpu=100m,memory=128Mi"
             eviction-hard: "memory.available<100Mi,nodefs.available<10%"
-    extraPortMappings:
-      - containerPort: 80
-        hostPort: 8080
-        protocol: TCP
-      - containerPort: 443
-        hostPort: 8443
-        protocol: TCP
