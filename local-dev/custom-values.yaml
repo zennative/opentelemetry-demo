@@ -1,0 +1,5 @@
+components:
+  cart:
+    imageOverride:
+      repository: localhost/open-telemetry/demo
+      tag: kusi12
