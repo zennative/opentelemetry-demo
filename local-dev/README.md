@@ -64,35 +64,57 @@ This will open a terminal-based UI where you can see the pods and their status l
 
 ![k9s running screenshot](./readme-img/k9s-opentelemetry-demo-screenshot-2025-07-10.png)
 
-### 9. Port forwarding (each in a separate terminal tab/window)
-To access the individual components of the OpenTelemetry Demo via your web browser, forward the following ports. Each command should be run in a separate terminal tab or window:
+### 9. Port forwarding
+To access the individual components of the OpenTelemetry Demo via your web browser the frontend-proxy service can be used. Run the following command to make the services available:
 
-#### Frontend (Onlineshop)
 ```bash
-kubectl port-forward svc/frontend-proxy 8080:8080 -n observability
+kubectl port-forward service/frontend-proxy 8080:8080 --namespace observability
 ```
-➜ http://localhost:8080/
+
+The following web interfaces are accessible locally through port forwarding:
+
+| Service             | URL                                  | Description                      |
+|---------------------|---------------------------------------|----------------------------------|
+| Web Store           | [http://localhost:8080](http://localhost:8080)                 | Demo frontend of the web shop   |
+| Grafana             | [http://localhost:8080/grafana](http://localhost:8080/grafana) | Metrics & dashboards            |
+| Feature Flags UI    | [http://localhost:8080/feature](http://localhost:8080/feature) | Feature flag management         |
+| Load Generator UI   | [http://localhost:8080/loadgen/](http://localhost:8080/loadgen/) | Simulates user traffic          |
+| Jaeger UI           | [http://localhost:8080/jaeger/ui](http://localhost:8080/jaeger/ui) | Distributed tracing             |
+
 
 #### Prometheus
+To access the Prometheus web UI, forward its service in a separate terminal tab using:
+
 ```bash
+kubectl port-forward svc/prometheus 9090:9090 --namespace observability
+```
+| Service             | URL                                  | Description                      |
+|---------------------|---------------------------------------|----------------------------------|
+| Prometheus UI           | [http://localhost:9090](http://localhost:9090)                 | Monitoring and alerting system for metrics collection and querying |
+
+#### Alternative: Forward each service in a separate terminal tab
+If the default port-forward through frontend-proxy does not work or you want to access individual services directly, you can forward each service separately in its own terminal tab. This approach can help isolate issues and gives direct access to service UIs.
+
+```bash
+# Frontend (Onlineshop)
+kubectl port-forward svc/frontend-proxy 8080:8080 -n observability
+# Access at http://localhost:8080/
+
+# Prometheus
 kubectl port-forward svc/prometheus 9090:9090 -n observability
-```
-➜ http://localhost:9090/query
+# Access at http://localhost:9090/
 
-#### Grafana
-```bash
+# Grafana
 kubectl port-forward svc/grafana 3000:80 -n observability
-```
-➜ http://localhost:3000/
+# Access at http://localhost:3000/
 
-#### Jaeger
-```bash
+# Jaeger
 kubectl port-forward svc/jaeger-query 16686:16686 -n observability
-```
-➜ http://localhost:16686/jaeger/ui/search
+# Access at http://localhost:16686/
 
-#### Locust (Load generator)
-➜ http://localhost:8080/loadgen/
+# For Locust (Load Generator) use:
+http://localhost:8080/loadgen/ (via frontend-proxy)
+```
 
 ## 🛑 Shut Down the Cluster and Demo
 To shut down the OpenTelemetry demo and the local Kubernetes cluster cleanly:
