@@ -17,6 +17,10 @@ This setup enables you to run the OpenTelemetry Demo locally using a Kubernetes 
 ```bash
 podman machine init podman-machine-otel-demo --cpus 8 --memory 10248 --disk-size 150
 ```
+#### Apple MacBook Air M1 2020
+```bash
+podman machine init podman-machine-otel-demo --cpus 6 --memory 6144 --disk-size 150
+```
 
 ### 2. Start Podman Machine
 Start Podman VM via the Podman Desktop App or by the following command.
@@ -29,6 +33,10 @@ podman machine start podman-machine-otel-demo
 
 ```bash
 kind create cluster --name observability-platform --config ./local-dev/kind-config.yaml
+```
+#### Apple MacBook Air M1 2020
+```bash
+kind create cluster --name observability-platform
 ```
 
 ### 4. Create Kubernetes namespace
@@ -163,6 +171,77 @@ Then repeat steps 2, 3, 4, and 7 from [Initial Setup and Cluster Provisioning](#
 - Step 7: Install the OpenTelemetry demo via Helm
 
 
+## Make changes to the OpenTelemetry Demo
+
+### cd to your workspace
+```bash
+cd /Users/markusschmid/Documents/Weiterbildung/HSLU/MAS Cloud, Technologies & Ecosystems/CAS Cloud and Platform Manager/Transferarbeit/Workspace/OpenTelemetryDemoApp
+```
+
+### Make a change to a service's file (e.g. cart service)
+```bash
+vim /Users/markusschmid/Documents/Weiterbildung/HSLU/MAS Cloud, Technologies & Ecosystems/CAS Cloud and Platform Manager/Transferarbeit/Workspace/OpenTelemetryDemoApp/opentelemetry-demo/src/cart/src/cartstore/ValkeyCartStore.cs
+```
+
+### Build service according to its own README.md file (e.g. cart with Microsoft .NET tools)
+```bash
+cd src/cart
+dotnet restore
+dotnet build
+```
+
+### Build container image for cart
+```bash
+docker-compose build cart #Funktioniert
+```
+
+### (Optional) Build container images for entire project
+```bash
+docker-compose build # Works better
+podman-compose build # Works
+```
+
+### Check podman container images
+```bash
+podman images
+```
+
+### Tagging
+```bash
+podman tag ghcr.io/open-telemetry/demo:latest-cart localhost/open-telemetry/demo:kusi10
+```
+
+### Create tar file
+```bash
+podman save localhost/open-telemetry/demo:kusi10 -o otel-cart.tar
+```
+
+### Save image to kind
+```bash
+kind load image-archive otel-cart.tar --name observability-platform
+```
+
+### Create or adapt custom-values.yaml file to define which container image to user
+```bash
+/Users/markusschmid/Workspaces/OpenTelemetryDemoApp/opentelemetry-demo/local-dev/custom-values.yaml
+```
+
+### Deploy to kind using local image according to custom-values.yaml (cart from local repository)
+This command runs the OpenTelemetry demo mainly with the online repository. Services mentioned in the
+custom-values.yaml are started from the local built and deployed source code though.
+```bash
+helm install observability-platform-demo open-telemetry/opentelemetry-demo \
+  --namespace observability \
+  --create-namespace \
+  -f local-dev/custom-values.yaml
+```
+
+### Redeploy a changed container image to a running Kubernetes cluster
+```bash
+helm upgrade observability-platform-demo open-telemetry/opentelemetry-demo \
+  --namespace observability \
+  -f local-dev/custom-values.yaml
+```
+
 ## 📄 License
 This setup is based on open-source tools and intended for academic and research use. See individual tool licenses for details.
-
