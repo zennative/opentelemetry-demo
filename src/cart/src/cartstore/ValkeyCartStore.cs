@@ -125,6 +125,7 @@ public class ValkeyCartStore : ICartStore
     {
         var stopwatch = Stopwatch.StartNew();
         _logger.LogInformation("AddItemAsync called with userId={userId}, productId={productId}, quantity={quantity}", userId, productId, quantity);
+        _logger.LogInformation("AddItemAsync New Demo Log from Kusi");
 
         try
         {
@@ -158,7 +159,7 @@ public class ValkeyCartStore : ICartStore
                 }
             }
 
-            await db.HashSetAsync(userId, new[]{ new HashEntry(CartFieldName, cart.ToByteArray()) });
+            await db.HashSetAsync(userId, new[] { new HashEntry(CartFieldName, cart.ToByteArray()) });
             await db.KeyExpireAsync(userId, TimeSpan.FromMinutes(60));
         }
         catch (Exception ex)
