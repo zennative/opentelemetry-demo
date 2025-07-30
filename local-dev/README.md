@@ -14,6 +14,8 @@ This setup enables you to run the OpenTelemetry Demo locally using a Kubernetes 
 ## 🚀 Initial Setup and Cluster Provisioning
 
 ### 1. Create Podman Machine (VM)
+
+#### Apple MacBook Pro M1 16 GB 2021
 ```bash
 podman machine init podman-machine-otel-demo --cpus 8 --memory 10248 --disk-size 150
 ```
