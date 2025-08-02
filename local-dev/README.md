@@ -15,12 +15,11 @@ This setup enables you to run the OpenTelemetry Demo locally using a Kubernetes 
 
 ### 1. Create Podman Machine (VM)
 
-#### Apple MacBook Pro M1 16 GB 2021
 ```bash
+# Apple MacBook Pro M1 16 GB 2021:
 podman machine init podman-machine-otel-demo --cpus 8 --memory 10248 --disk-size 150
-```
-#### Apple MacBook Air M1 2020
-```bash
+
+# Apple MacBook Air M1 2020:
 podman machine init podman-machine-otel-demo --cpus 6 --memory 6144 --disk-size 150
 ```
 
@@ -34,10 +33,10 @@ podman machine start podman-machine-otel-demo
 ### 3. Create Kind Cluster
 
 ```bash
+# Apple MacBook Pro M1 16 GB 2021:
 kind create cluster --name observability-platform --config ./local-dev/kind-config.yaml
-```
-#### Apple MacBook Air M1 2020
-```bash
+
+# Apple MacBook Air M1 2020:
 kind create cluster --name observability-platform
 ```
 
