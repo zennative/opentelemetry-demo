@@ -31,6 +31,13 @@ podman machine start podman-machine-otel-demo
 ```
 
 ### 3. Create Kind Cluster
+> ⚠️ **Important Notice:**  
+> The following environment variable tells kind to use Podman instead of Docker as the container runtime.
+> It may be needed on macOS if both Podman and Docker Desktop are installed and you want to force kind to use Podman.
+
+```bash
+export KIND_EXPERIMENTAL_PROVIDER=podman
+```
 
 ```bash
 # Apple MacBook Pro M1 16 GB 2021:
