@@ -63,11 +63,22 @@ helm repo update
 ```
 
 ### 7. Install the OpenTelemetry Demo Using Helm
-> ⚠️ **Important Notice:**  
-> Before starting the OpenTelemetry Demo Kubernetes cluster with kind, **please close other applications** such as browsers, IDEs, or heavy background processes.  
-> This ensures your system has **enough CPU and memory resources** available to run the cluster smoothly and avoid issues like pod crashes or slow startup.
+> ⚠️ **Important Notice**
+> Before starting the OpenTelemetry Demo Kubernetes cluster with kind, **please close other applications** such as browsers, IDEs, or heavy background processes. This ensures your system has **enough CPU and memory resources** available to run the cluster smoothly and avoid issues like pod crashes or slow startup.
+💡 **Tip for laptop users**
+> Running Kubernetes workloads locally is CPU- and memory-intensive. If you're using a MacBook or similar laptop, it's strongly recommended to **plug it into power** while running the cluster. In battery mode, macOS may throttle performance, which can lead to slower startup times or unstable workloads.
+```bash
+helm install observability-platform-demo open-telemetry/opentelemetry-demo --version 0.37.1 --namespace observability
+```
+> 🎯 **Why a fixed version?**
+We use a specific version (0.37.1) of the OpenTelemetry Demo to ensure reproducibility and consistency for scientific evaluation. Helm chart versions may change over time and introduce breaking changes or new behaviors.
+If you want to use the latest available version, simply omit the --version flag:
 ```bash
 helm install observability-platform-demo open-telemetry/opentelemetry-demo --namespace observability
+```
+> 📌 To view all available versions:
+```bash
+helm search repo open-telemetry/opentelemetry-demo --versions
 ```
 
 ### 8. Observe the Cluster Startup with k9s
