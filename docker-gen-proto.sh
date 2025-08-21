@@ -11,29 +11,29 @@ set -x # Print commands and their arguments as they are executed
 
 gen_proto_go() {
   echo "Generating Go protobuf files for $1"
-  docker build -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
-  docker run --rm -v $(pwd):/build "$1-genproto" \
+   podman build  -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
+  podman run --rm -v $(pwd):/build "$1-genproto" \
     protoc -I /build/pb /build/pb/demo.proto --go_out="./src/$1/" --go-grpc_out="./src/$1/"
 }
 
 gen_proto_cpp() {
   echo "Generating Cpp protobuf files for $1"
-  docker build --build-arg OPENTELEMETRY_CPP_VERSION=${OPENTELEMETRY_CPP_VERSION} -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
-  docker run --rm -v $(pwd):/build "$1-genproto" \
+  podman build --build-arg OPENTELEMETRY_CPP_VERSION=${OPENTELEMETRY_CPP_VERSION} -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
+  podman run --rm -v $(pwd):/build "$1-genproto" \
     cp -r "/$1/build/generated" "/build/src/$1/build/"
 }
 
 gen_proto_python() {
   echo "Generating Python protobuf files for $1"
-  docker build -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
-  docker run --rm -v $(pwd):/build "$1-genproto" \
+  podman build -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
+  podman run --rm -v $(pwd):/build "$1-genproto" \
     python -m grpc_tools.protoc -I /build/pb/ --python_out="./src/$1/" --grpc_python_out="./src/$1/" /build/pb/demo.proto
 }
 
 gen_proto_ts() {
   echo "Generating Typescript protobuf files for $1"
-  docker build -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
-  docker run --rm -e SERVICE=$1 -v $(pwd):/build "$1-genproto" /bin/sh -c '
+  podman build -f "src/$1/genproto/Dockerfile" -t "$1-genproto" .
+  podman run --rm -e SERVICE=$1 -v $(pwd):/build "$1-genproto" /bin/sh -c '
     mkdir -p /build/src/$SERVICE/protos && \
     protoc -I /build/pb \
     --plugin=protoc-gen-ts_proto=/app/node_modules/.bin/protoc-gen-ts_proto \
