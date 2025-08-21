@@ -2,4 +2,8 @@ components:
   cart:
     imageOverride:
       repository: localhost/open-telemetry/demo
-      tag: kusi12
+      tag: kusilog
+  checkout:
+    imageOverride:
+      repository: localhost/open-telemetry/demo
+      tag: kusimetric

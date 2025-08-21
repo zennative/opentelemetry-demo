@@ -10,6 +10,12 @@ To build the service binary, run:
 go build -o /go/bin/checkout/
 ```
 
+To build the service binary locally without container, run:
+
+```sh
+go build -o bin/checkout/
+```
+
 ## Docker Build
 
 From the root directory, run:
