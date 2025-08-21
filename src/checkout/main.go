@@ -15,6 +15,8 @@ import (
 	"sync"
 	"time"
 
+	"go.opentelemetry.io/otel/metric"
+
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.24.0"
 	"go.opentelemetry.io/otel/trace"
@@ -249,6 +251,18 @@ func (cs *checkout) Watch(req *healthpb.HealthCheckRequest, ws healthpb.Health_W
 }
 
 func (cs *checkout) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (*pb.PlaceOrderResponse, error) {
+	// New metric Kusi
+	start := time.Now()
+	var meter = otel.Meter("checkout-service")
+	histogram, err := meter.Float64Histogram(
+		"app_checkout_placeorder_duration_seconds",
+		metric.WithDescription("Duration of Checkout process in seconds"),
+		metric.WithUnit("s"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
 	span := trace.SpanFromContext(ctx)
 	span.SetAttributes(
 		attribute.String("app.user.id", req.UserId),
@@ -256,7 +270,7 @@ func (cs *checkout) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (
 	)
 	log.Infof("[PlaceOrder] user_id=%q user_currency=%q", req.UserId, req.UserCurrency)
 
-	var err error
+	//var err error
 	defer func() {
 		if err != nil {
 			span.AddEvent("error", trace.WithAttributes(semconv.ExceptionMessageKey.String(err.Error())))
@@ -332,6 +346,11 @@ func (cs *checkout) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (
 	}
 
 	resp := &pb.PlaceOrderResponse{Order: orderResult}
+
+	// Record the new metric Kusi
+	duration := time.Since(start)
+	histogram.Record(ctx, duration.Seconds())
+
 	return resp, nil
 }
 
