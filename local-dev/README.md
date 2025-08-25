@@ -189,17 +189,33 @@ Then repeat steps 2, 3, 4, and 7 from [Initial Setup and Cluster Provisioning](#
 - Step 4: Create the observability namespace
 - Step 7: Install the OpenTelemetry demo via Helm
 
+## Create workspace and check out OpenTelemetry Demo
+
+### Create workspace folder
+```bash
+mkdir ~/Workspaces
+mkdir ~/Workspaces/OpenTelemetryDemoApp
+```
+
+### cd to your workspace folder
+```bash
+cd ~/Workspaces/OpenTelemetryDemoApp
+```
+### Checkout OpenTelemetry Demo (Fork)
+```bash
+git checkout https://github.com/zennative/opentelemetry-demo.git
+```
+
+### cd to your opentelemetry-demo workspace
+```bash
+cd ~/Workspaces/OpenTelemetryDemoApp/opentelemetry-demo
+```
 
 ## Make changes to the OpenTelemetry Demo (Log)
 
-### cd to your workspace
-```bash
-cd /Users/markusschmid/Workspaces/OpenTelemetryDemoApp/opentelemetry-demo
-```
-
 ### Make a change to a service's file (e.g. cart service)
 ```bash
-vim /Users/markusschmid/Workspaces/OpenTelemetryDemoApp/opentelemetry-demo/src/cart/src/cartstore/ValkeyCartStore.cs
+vim src/cart/src/cartstore/ValkeyCartStore.cs
 ```
 
 ### Build service according to its own README.md file (e.g. cart with Microsoft .NET tools)
@@ -211,14 +227,13 @@ dotnet build
 
 ### Build container image for cart
 ```bash
-cd ../...
+cd ../..
 docker-compose build cart
 ```
 
 ### (Optional) Build container images for entire project
 ```bash
-docker-compose build # Works better
-podman-compose build # Works
+docker-compose build
 ```
 
 ### Check podman container images
@@ -241,9 +256,9 @@ podman save localhost/open-telemetry/demo:kusilog -o otel-cart.tar
 kind load image-archive otel-cart.tar --name observability-platform
 ```
 
-### Create or adapt custom-values.yaml file to define which container image to user
+### Create or adapt custom-values.yaml file to define which container image to use
 ```bash
-vim /Users/markusschmid/Workspaces/OpenTelemetryDemoApp/opentelemetry-demo/local-dev/custom-values.yaml
+vim local-dev/custom-values.yaml
 ```
 
 ### Deploy to kind using local image according to custom-values.yaml (cart from local repository)
