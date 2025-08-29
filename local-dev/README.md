@@ -87,7 +87,7 @@ In a new terminal tab, you can monitor the startup of the Kubernetes cluster usi
 ```bash
 k9s --context kind-observability-platform
 ```
-This will open a terminal-based UI where you can see the pods and their status live. Wait until all pods are in a Running or Completed state before proceeding.
+This will open a terminal-based UI where you can see the pods and their status live. Wait until all pods are in a Running or Completed state before proceeding. This startup process takes several minutes.
 
 ![k9s running screenshot](./readme-img/k9s-opentelemetry-demo-screenshot-2025-07-10.png)
 
