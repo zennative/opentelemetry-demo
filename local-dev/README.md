@@ -104,9 +104,9 @@ The following web interfaces are accessible locally through port forwarding:
 |---------------------|---------------------------------------|----------------------------------|
 | Web Store           | [http://localhost:8080](http://localhost:8080)                 | Demo frontend of the web shop   |
 | Grafana             | [http://localhost:8080/grafana](http://localhost:8080/grafana) | Metrics & dashboards            |
-| Feature Flags UI    | [http://localhost:8080/feature](http://localhost:8080/feature) | Feature flag management         |
-| Load Generator UI   | [http://localhost:8080/loadgen/](http://localhost:8080/loadgen/) | Simulates user traffic          |
-| Jaeger UI           | [http://localhost:8080/jaeger/ui](http://localhost:8080/jaeger/ui) | Distributed tracing             |
+| Feature Flags       | [http://localhost:8080/feature](http://localhost:8080/feature) | Feature flag management         |
+| Load Generator      | [http://localhost:8080/loadgen/](http://localhost:8080/loadgen/) | Simulates user traffic          |
+| Jaeger.             | [http://localhost:8080/jaeger/ui](http://localhost:8080/jaeger/ui) | Distributed tracing             |
 
 
 #### Prometheus
