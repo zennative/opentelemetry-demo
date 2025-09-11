@@ -13,7 +13,12 @@ This setup enables you to run the OpenTelemetry Demo locally using a Kubernetes 
 
 ## 🚀 Initial Setup and Cluster Provisioning
 
-### 1. Create Podman Machine (VM)
+### 1. Start Podman Desktop
+Open the Podman Desktop application on macOS. This initializes the environment so you can create a new Podman machine in the next step.
+
+![Podman Desktop Version 1.21.0 on macOS screenshot](./readme-img/podman-desktop-screenshot-2025-09-11.png)
+
+### 2. Create Podman Machine (VM)
 
 ```bash
 # Apple MacBook Pro M1 16 GB 2021:
@@ -23,14 +28,14 @@ podman machine init podman-machine-otel-demo --cpus 8 --memory 10248 --disk-size
 podman machine init podman-machine-otel-demo --cpus 8 --memory 8192 --disk-size 150
 ```
 
-### 2. Start Podman Machine
+### 3. Start Podman Machine
 Start Podman VM via the Podman Desktop App or by the following command.
 
 ```bash
 podman machine start podman-machine-otel-demo
 ```
 
-### 3. Create Kind Cluster
+### 4. Create Kind Cluster
 > ⚠️ **Important Notice:**  
 > The following environment variable tells kind to use Podman instead of Docker as the container runtime.
 > It may be needed on macOS if both Podman and Docker Desktop are installed and you want to force kind to use Podman.
@@ -47,22 +52,22 @@ kind create cluster --name observability-platform --config ./local-dev/kind-conf
 kind create cluster --name observability-platform
 ```
 
-### 4. Create Kubernetes namespace
+### 5. Create Kubernetes namespace
 ```bash
 kubectl create ns observability
 ```
 
-### 5. Add the OpenTelemetry Helm Chart Repository
+### 6. Add the OpenTelemetry Helm Chart Repository
 ```bash
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 ```
 
-### 6. Update Your Local Helm Repository Cache
+### 7. Update Your Local Helm Repository Cache
 ```bash
 helm repo update
 ```
 
-### 7. Install the OpenTelemetry Demo Using Helm
+### 8. Install the OpenTelemetry Demo Using Helm
 > ⚠️ **Important Notice**
 > Before starting the OpenTelemetry Demo Kubernetes cluster with kind, **please close other applications** such as browsers, IDEs, or heavy background processes. This ensures your system has **enough CPU and memory resources** available to run the cluster smoothly and avoid issues like pod crashes or slow startup.
 💡 **Tip for laptop users**
@@ -81,7 +86,7 @@ helm install observability-platform-demo open-telemetry/opentelemetry-demo --nam
 helm search repo open-telemetry/opentelemetry-demo --versions
 ```
 
-### 8. Observe the Cluster Startup with k9s
+### 9. Observe the Cluster Startup with k9s
 In a new terminal tab, you can monitor the startup of the Kubernetes cluster using ```k9s```. This helps you verify that all pods are initializing correctly after executing the Helm install in step 7.
 
 ```bash
@@ -91,7 +96,7 @@ This will open a terminal-based UI where you can see the pods and their status l
 
 ![k9s running screenshot](./readme-img/k9s-opentelemetry-demo-screenshot-2025-07-10.png)
 
-### 9. Port forwarding
+### 10. Port forwarding
 To access the individual components of the OpenTelemetry Demo via your web browser the frontend-proxy service can be used. Run the following command to make the services available:
 
 ```bash
