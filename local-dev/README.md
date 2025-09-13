@@ -13,6 +13,9 @@ This setup enables you to run the OpenTelemetry Demo locally using a Kubernetes 
 
 ## 🚀 Initial Setup and Cluster Provisioning
 
+🎥 [Demo Video: Local OpenTelemetry Setup on macOS](https://github.com/zennative/opentelemetry-demo/releases/download/v1.0.0/cas-cpm-opentelemetry-demo-local-setup-macos.mp4)  
+This video demonstrates the complete setup process described in this chapter.
+
 ### 1. Start Podman Desktop
 Open the Podman Desktop application on macOS. This initializes the environment so you can create a new Podman machine in the next step.
 
